@@ -55,7 +55,7 @@
             search(cityName)
         });
         function search(cityName) {
-            fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=59d83048f55a00779da9438c49299782`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=59d83048f55a00779da9438c49299782`)
                 .then(Response => Response.json())
                 .then(data => {
                     console.log(data)
@@ -66,6 +66,7 @@
                     document.getElementById('description').innerText = "weather description: " + data.weather[0].description;
                     document.getElementById('cloud-image').src = image(data.weather[0].icon);
                 })
+                .catch(error => console.log(error))
         }
         function image(icon) {
             return `https://openweathermap.org/img/wn/${icon}@2x.png`
