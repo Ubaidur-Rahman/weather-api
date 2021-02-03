@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        address {
+            margin-top: 150px;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="city-input" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="search-btn" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="cloud-image" src="https://openweathermap.org/img/wn/10d@2x.png" alt="">
+            <h1 id="city-name">Dhaka</h1>
+            <h3><span id="temperature">38.06</span>&deg;C</h3>
+            <h1 id="cloud" class="lead">Clouds</h1>
+            <p id="description"></p>
+        </div>
+    </div>
+
+    <address>
+        Allrights reserved @ubaidur rahman
+
+    </address>
+
+
+
+
+
+
+    <script>
+        let searchBtn = document.getElementById('search-btn');
+        searchBtn.addEventListener('click', function () {
+            const cityName = document.getElementById('city-input').value;
+            // document.getElementById('city-name').innerText = cityName;
+            search(cityName)
+        });
+        function search(cityName) {
+            fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=59d83048f55a00779da9438c49299782`)
+                .then(Response => Response.json())
+                .then(data => {
+                    console.log(data)
+                    let temper = data.main.temp
+                    document.getElementById('temperature').innerText = Math.round(temper - 273);
+                    document.getElementById('city-name').innerText = data.name;
+                    document.getElementById('cloud').innerText = data.weather[0].main;
+                    document.getElementById('description').innerText = "weather description: " + data.weather[0].description;
+                    document.getElementById('cloud-image').src = image(data.weather[0].icon);
+                })
+        }
+        function image(icon) {
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`
+        }
+    </script>
+
+
+
+</body>
+
+</html>
